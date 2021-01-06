@@ -1,0 +1,66 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    Challenge\App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    Challenge\App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    _instanceof:
+        Shared\Domain\Bus\Event\DomainEventSubscriber:
+            tags: ['challenge.domain_event_subscriber']
+
+        Shared\Domain\Bus\Command\CommandHandler:
+            tags: ['challenge.command_handler']
+
+        Shared\Domain\Bus\Query\QueryHandler:
+            tags: ['challenge.query_handler']
+
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    # Wire
+    Challenge\:
+        resource: '../../../src/Challenge'
+    Shared\:
+        resource: '../../../src/Shared'
+
+    # -- TAGGING --
+    Shared\Infrastructure\Bus\Event\InMemory\InMemorySymfonyEventBus:
+        arguments: [!tagged challenge.domain_event_subscriber]
+        lazy: true
+
+    Shared\Infrastructure\Bus\Event\DomainEventMapping:
+        arguments: [!tagged challenge.domain_event_subscriber]
+
+    Shared\Infrastructure\Bus\Event\DomainEventSubscriberLocator:
+        arguments: [!tagged challenge.domain_event_subscriber]
+
+    Shared\Infrastructure\Symfony\ApiExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onException }
+        
+    # Command/Query Handlers
+    Shared\Infrastructure\Bus\Command\InMemorySymfonyCommandBus:
+        arguments: [!tagged challenge.command_handler]
+
+    Shared\Infrastructure\Bus\Query\InMemorySymfonyQueryBus:
+        arguments: [!tagged challenge.query_handler]

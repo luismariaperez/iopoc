@@ -1,0 +1,5 @@
+status_get:
+    path: /status
+    controller: Challenge\App\Controller\HealthCheck\StatusGetController
+    methods:  [GET]
+
