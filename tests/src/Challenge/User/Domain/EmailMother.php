@@ -14,7 +14,7 @@ class EmailMother
         return Email::create($value);
     }
 
-    static public function random(string $value): Email
+    static public function random(): Email
     {
         return self::create(Factory::create()->email());
     }
