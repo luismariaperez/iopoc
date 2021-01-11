@@ -3,3 +3,7 @@ status_get:
     controller: Challenge\App\Controller\HealthCheck\StatusGetController
     methods:  [GET]
 
+user_onboard_post:
+    path: /user/onboard
+    controller: Challenge\App\Controller\Onboarding\OnBoardingPostController
+    methods:  [POST]

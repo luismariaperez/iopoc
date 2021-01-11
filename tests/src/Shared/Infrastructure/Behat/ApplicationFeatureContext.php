@@ -12,6 +12,7 @@ final class ApplicationFeatureContext implements Context
     /** @BeforeScenario */
     public function cleanEnvironment(): void
     {
-
+        $files = glob('/app/persistence/*');
+        array_map('unlink', array_filter($files));
     }
 }

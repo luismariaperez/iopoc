@@ -101,8 +101,25 @@ final class ApiContext extends RawMinkContext
         }
     }
 
+    /**
+     * @Then the response should contain :text
+     */
+    public function theResponseShouldContain($text)
+    {
+        $actual = trim($this->sessionHelper->getResponse());
+
+        if (!strstr($actual, $text)) {
+            throw new RuntimeException(
+                sprintf("Text:\n%s\n not found in:\n%s", $text, $actual)
+            );
+        }
+    }
+
+
     private function sanitizeOutput(string $output)
     {
         return json_encode(json_decode(trim($output), true));
     }
+
+
 }

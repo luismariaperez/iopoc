@@ -41,6 +41,13 @@ final class ApiExceptionListener
     {
         $domainErrorClass = DomainError::class;
 
-        return $error instanceof $domainErrorClass ? $error->errorCode() : Utils::toSnakeCase(class_basename($error));
+        return $error instanceof $domainErrorClass ? $error->errorCode() : Utils::toSnakeCase($this->classBasename($error));
+    }
+
+    private function classBasename($class)
+    {
+        $class = is_object($class) ? get_class($class) : $class;
+
+        return basename(str_replace('\\', '/', $class));
     }
 }
