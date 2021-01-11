@@ -15,3 +15,8 @@ challenge:
             paths: [ tests/apps/Challenge/features/health_check ]
             contexts:
                 - Tests\Shared\Infrastructure\Behat\ApiContext
+        user:
+            paths: [ tests/apps/Challenge/features/user ]
+            contexts:
+                - Tests\Shared\Infrastructure\Behat\ApiContext
+                - Tests\Shared\Infrastructure\Behat\ApplicationFeatureContext

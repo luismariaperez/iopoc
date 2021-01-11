@@ -37,7 +37,9 @@
         "lambdish/phunctional": "2.0",
         "ext-json": "*",
         "dg/bypass-finals": "^1.1",
-        "symfony/flex": "^1.6"
+        "symfony/flex": "^1.6",
+        "furqansiddiqui/erc20-php": "^0.2.1",
+        "fakerphp/faker": "^1.13"
     },
     "require-dev": {
         "jakub-onderka/php-console-highlighter": "^0.4",
@@ -62,7 +64,7 @@
             "Tests\\": "tests/src"
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "config": {
         "optimize-autoloader": true
     },

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Shared\Infrastructure\PHPUnit\Module;
 
+use Behat\Testwork\Event\Event;
 use PHPUnit\Framework\MockObject\MockObject;
 use Shared\Domain\Bus\Command\Command;
 use Shared\Domain\Bus\Command\CommandBus;
@@ -39,7 +40,7 @@ class ModuleUnitTestCase extends UnitTestCase
     }
 
     /**
-     * @return QueryBus|MockObject
+     * @return EventBus|MockObject
      */
     protected function eventBus()
     {
