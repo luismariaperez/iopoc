@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Challenge\User\Application\Create;
 
-use Challenge\User\Application\Create\CreateUserCommand;
 use Challenge\User\Application\Create\CreateUserHandler;
 use Challenge\User\Application\Create\Creator;
 use Tests\Challenge\User\Domain\UserCreatedEventMother;
 use Tests\Challenge\User\Domain\UserMother;
-use Tests\Challenge\User\UserContextUnitTest;
+use Tests\Challenge\User\UserContextUnitTestCase;
 
-class CreateUserHandlerTest extends UserContextUnitTest
+class CreateUserHandlerTest extends UserContextUnitTestCase
 {
     private CreateUserHandler $handler;
 

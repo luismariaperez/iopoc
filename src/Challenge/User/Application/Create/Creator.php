@@ -6,6 +6,7 @@ namespace Challenge\User\Application\Create;
 
 use Challenge\Shared\Domain\User\Id;
 use Challenge\User\Domain\Email;
+use Challenge\User\Domain\User;
 use Challenge\User\Domain\UserRepository;
 use Shared\Domain\Bus\Event\EventBus;
 
@@ -22,6 +23,10 @@ class Creator
 
     public function __invoke(Id $id, Email $email)
     {
+        $user = User::create($id, $email);
 
+        $this->repository->save($user);
+
+        $this->bus->publish(...$user->pullDomainEvents());
     }
 }

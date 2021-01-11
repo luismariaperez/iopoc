@@ -9,7 +9,7 @@ use Challenge\User\Domain\UserRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\Challenge\Shared\Domain\ChallengeContextUnitTestCase;
 
-class UserContextUnitTest extends ChallengeContextUnitTestCase
+class UserContextUnitTestCase extends ChallengeContextUnitTestCase
 {
     private $repository;
 
