@@ -41,7 +41,7 @@ class Account extends AggregateRoot
         return $token;
     }
 
-    public function complete(Address $address, Balance $balance): Account
+    public function complete(Address $address, Balance $balance)
     {
         $this->address = $address;
         $this->balance = $balance;

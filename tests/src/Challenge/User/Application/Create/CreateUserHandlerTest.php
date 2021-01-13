@@ -40,6 +40,6 @@ class CreateUserHandlerTest extends UserContextUnitTestCase
         $this->shouldSave($user);
         $this->shouldPublishDomainEvent($event);
 
-        $this->handler->handle($command);
+        $this->handler->__invoke($command);
     }
 }

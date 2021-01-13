@@ -20,7 +20,7 @@ class Locked extends Enum
     public const BUY = 'buy';
     public const WITHDRAW = 'withdraw';
     public const TRANSFER = 'transfer';
-    public const UNLOKED = 'unlocked';
+    public const UNLOCKED = 'unlocked';
 
     protected function throwExceptionForInvalidValue($value): void
     {
