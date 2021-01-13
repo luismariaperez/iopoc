@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Challenge\Account\Application\Create;
 
+use Challenge\Account\Domain\Account;
 use Challenge\Account\Domain\AccountRepository;
 use Challenge\Account\Domain\Id;
 use Shared\Domain\Bus\Event\EventBus;
@@ -20,8 +21,12 @@ class Creator
         $this->bus = $bus;
     }
 
-    public function __invoke(Id $id, UserId $userId)
+    public function __invoke(Id $id, UserId $userId): void
     {
+        $account = Account::createEmpty($id, $userId);
 
+        $this->repository->save($account);
+
+        $this->bus->publish(...$account->pullDomainEvents());
     }
 }
