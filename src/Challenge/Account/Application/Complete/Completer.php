@@ -27,6 +27,11 @@ class Completer
 
     public function __invoke(Id $id, Address $address, Balance $balance): void
     {
+        $account = $this->finder->__invoke($id);
+        $account->complete($address, $balance);
 
+        $this->repository->save($account);
+
+        $this->bus->publish(...$account->pullDomainEvents());
     }
 }
