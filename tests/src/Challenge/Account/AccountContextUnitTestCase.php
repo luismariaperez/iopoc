@@ -37,7 +37,7 @@ class AccountContextUnitTestCase extends ChallengeContextUnitTestCase
             ->willReturn(null);
     }
 
-    protected function shouldSearch(Id $id, Account $account)
+    protected function shouldSearch(Id $id, ?Account $account)
     {
         $this->repository()
             ->expects($this->once())

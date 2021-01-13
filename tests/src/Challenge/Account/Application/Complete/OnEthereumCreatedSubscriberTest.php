@@ -6,6 +6,7 @@ namespace Tests\Challenge\Account\Application\Complete;
 
 use Challenge\Account\Application\Complete\Completer;
 use Challenge\Account\Application\Complete\OnEthereumCreatedSubscriber;
+use Challenge\Account\Domain\AccountNotFound;
 use Challenge\Account\Domain\Finder;
 use Ethereum\Account\Domain\AccountCreatedEvent;
 use Tests\Challenge\Account\AccountContextUnitTestCase;
@@ -59,6 +60,26 @@ class OnEthereumCreatedSubscriberTest extends AccountContextUnitTestCase
         $this->shouldSave($expected);
         $this->shouldPublishDomainEvent($completed);
 
+        /** @var AccountCreatedEvent $event */
+        $this->subscriber->__invoke($event);
+    }
+
+    /** @test */
+    public function itShouldNotFindAccount(): void
+    {
+        $account = AccountMother::createEmptyRandom();
+        $address = AddressMother::random();
+        $balance = BalanceMother::random();
+
+        $event = AccountCreatedEventMother::create(
+            $account->id()->value(),
+            $address->value(),
+            $balance->value()
+        );
+
+        $this->shouldSearch($account->id(), null);
+
+        $this->expectException(AccountNotFound::class);
         /** @var AccountCreatedEvent $event */
         $this->subscriber->__invoke($event);
     }
