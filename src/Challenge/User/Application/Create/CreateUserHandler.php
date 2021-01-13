@@ -17,7 +17,7 @@ class CreateUserHandler implements CommandHandler
          $this->create = $create;
      }
 
-     public function handle(CreateUserCommand $command)
+     public function __invoke(CreateUserCommand $command)
      {
         $this->create->__invoke(
             new Id($command->getId()),
