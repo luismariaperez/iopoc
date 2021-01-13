@@ -18,13 +18,12 @@ class UserCreatedEvent extends DomainEvent
     ) {
         parent::__construct($id, $eventId, $occurredOn);
 
-        $this->id = $id;
         $this->email = $email;
     }
 
     public static function eventName(): string
     {
-        return 'user.created';
+        return 'challenge.user.created';
     }
 
     public function toPrimitives(): array
