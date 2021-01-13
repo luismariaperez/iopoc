@@ -7,6 +7,7 @@ namespace Challenge\Account\Infastructure\Persistence;
 use Challenge\Account\Domain\AccountRepository;
 use Challenge\Account\Domain\Account;
 use Challenge\Account\Domain\Id;
+use Challenge\Shared\Domain\Account\FindByUserCriteria;
 use Shared\Domain\Criteria\Criteria;
 use Shared\Infrastructure\SerializedRepository\Serializer;
 
@@ -38,6 +39,22 @@ class AccountFileRepository extends Serializer implements AccountRepository
 
     public function searchByCriteria(Criteria $criteria): ?Account
     {
+        switch ($criteria->field()) {
+            case FindByUserCriteria::FIELD:
+                return $this->findByUser($criteria);
+            default:
+                return null;
+        }
 
+    }
+
+    /** It just returns one for the challenge */
+    public function findByUser(Criteria $criteria): ?Account
+    {
+        $accounts = array_filter(parent::findAll(), function (Account $account) use ($criteria) {
+            return $account->userId()->value() == $criteria->value();
+        });
+
+        return empty($accounts) ? null : array_pop($accounts);
     }
 }

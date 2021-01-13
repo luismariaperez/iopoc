@@ -23,6 +23,6 @@ class FindByUserCriteria extends Criteria
 
     public function value()
     {
-
+        return $this->value;
     }
 }

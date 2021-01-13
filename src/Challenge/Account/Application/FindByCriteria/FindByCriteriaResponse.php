@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Challenge\Account\Application\FindByCriteria;
 
-class FindByCriteriaResponse
+use Shared\Domain\Bus\Query\Response;
+
+class FindByCriteriaResponse implements Response
 {
     private string $id;
     private string $userId;

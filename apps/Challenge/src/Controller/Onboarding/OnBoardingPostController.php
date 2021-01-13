@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace Challenge\App\Controller\Onboarding;
 
+use Challenge\Account\Application\FindByCriteria\FindByCriteriaQuery;
+use Challenge\Account\Application\FindByCriteria\FindByCriteriaResponse;
+use Challenge\Shared\Domain\Account\FindByUserCriteria;
 use Challenge\User\Application\Create\CreateUserCommand;
 use Shared\Infrastructure\Symfony\ApiController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -49,10 +53,28 @@ class OnBoardingPostController extends ApiController
     private function onBoardUser(Request $request): Response
     {
         $user = $request->request->all();
-        $command = new CreateUserCommand($user['id'], $user['email']);
 
+        $command = new CreateUserCommand($user['id'], $user['email']);
         $this->dispatch($command);
 
-        return new Response('', Response::HTTP_CREATED);
+        $query = new FindByCriteriaQuery(
+            new FindByUserCriteria($user['id'])
+        );
+
+        /** @var FindByCriteriaResponse $response */
+        $response = $this->ask($query);
+
+        return new JsonResponse(
+            [
+                'account' => [
+                    'id' => $response->getId(),
+                    'userId' => $response->getUserId(),
+                    'address' => $response->getAddress(),
+                    'balance' => $response->getBalance(),
+                    'status' => $response->getLocked(),
+                ]
+            ],
+            Response::HTTP_CREATED
+        );
     }
 }
