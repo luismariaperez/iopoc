@@ -21,13 +21,13 @@ class OnUserCreatedSubscriber implements DomainEventSubscriber
 
     public static function subscribedTo(): array
     {
-        return [UserCreatedEvent::eventName()];
+        return [UserCreatedEvent::class];
     }
 
     public function __invoke(UserCreatedEvent $event)
     {
         $this->creator->__invoke(
-            new Id(Id::random()),
+            new Id(Id::random()->value()),
             new UserId($event->aggregateId())
         );
     }
