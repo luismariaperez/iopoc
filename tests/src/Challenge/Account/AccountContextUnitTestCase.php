@@ -6,6 +6,7 @@ use Challenge\Account\Domain\Account;
 use Challenge\Account\Domain\AccountRepository;
 use Challenge\Account\Domain\Id;
 use PHPUnit\Framework\MockObject\MockObject;
+use Shared\Domain\Criteria\Criteria;
 use Tests\Challenge\Shared\Domain\ChallengeContextUnitTestCase;
 
 class AccountContextUnitTestCase extends ChallengeContextUnitTestCase
@@ -43,6 +44,15 @@ class AccountContextUnitTestCase extends ChallengeContextUnitTestCase
             ->expects($this->once())
             ->method('search')
             ->with($id)
+            ->willReturn($account);
+    }
+
+    protected function shouldSearchByCriteria(Criteria $criteria, ?Account $account)
+    {
+        $this->repository()
+            ->expects($this->once())
+            ->method('searchByCriteria')
+            ->with($criteria)
             ->willReturn($account);
     }
 }

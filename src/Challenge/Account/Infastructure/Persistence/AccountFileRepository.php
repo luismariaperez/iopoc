@@ -7,6 +7,7 @@ namespace Challenge\Account\Infastructure\Persistence;
 use Challenge\Account\Domain\AccountRepository;
 use Challenge\Account\Domain\Account;
 use Challenge\Account\Domain\Id;
+use Shared\Domain\Criteria\Criteria;
 use Shared\Infrastructure\SerializedRepository\Serializer;
 
 class AccountFileRepository extends Serializer implements AccountRepository
@@ -33,5 +34,10 @@ class AccountFileRepository extends Serializer implements AccountRepository
     public function search(Id $id): ?Account
     {
         return $this->find($id->value());
+    }
+
+    public function searchByCriteria(Criteria $criteria): ?Account
+    {
+
     }
 }
