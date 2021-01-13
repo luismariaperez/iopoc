@@ -3,7 +3,8 @@
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
-parameters:
+imports:
+    - { resource: ../../../src/Ethereum/Shared/Infrastructure/Symfony/ethereum_services.yml }
 
 services:
     # default configuration for services in *this* file
@@ -42,6 +43,8 @@ services:
         resource: '../../../src/Challenge'
     Shared\:
         resource: '../../../src/Shared'
+    Ethereum\:
+        resource: '../../../src/Ethereum'
 
     # -- TAGGING --
     Shared\Infrastructure\Bus\Event\InMemory\InMemorySymfonyEventBus:
@@ -57,7 +60,11 @@ services:
     Shared\Infrastructure\Symfony\ApiExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onException }
-        
+
+    Shared\Infrastructure\Symfony\AddJsonBodyToRequestListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
     # Command/Query Handlers
     Shared\Infrastructure\Bus\Command\InMemorySymfonyCommandBus:
         arguments: [!tagged challenge.command_handler]
