@@ -20,6 +20,9 @@
     "comely-io/data-types": {
         "version": "1.0.34"
     },
+    "composer/package-versions-deprecated": {
+        "version": "1.11.99.1"
+    },
     "container-interop/container-interop": {
         "version": "1.2.0"
     },
@@ -99,7 +102,7 @@
         "version": "2.0.1"
     },
     "php": {
-        "version": "7.2"
+        "version": "7.4"
     },
     "php-parallel-lint/php-parallel-lint": {
         "version": "v1.1.0"

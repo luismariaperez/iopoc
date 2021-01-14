@@ -69,26 +69,5 @@
     "config": {
         "optimize-autoloader": true
     },
-    "prefer-stable": true,
-    "scripts": {
-        "lint": "parallel-lint . --exclude vendor",
-        "style": "phpcs -p --standard=PSR2 src tests",
-        "fix-style": "phpcbf -p --standard=PSR2 src tests",
-        "phpunit": "phpunit --configuration phpunit.xml",
-        "test": [
-            "parallel-lint . --exclude vendor",
-            "phpcs -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
-            "phpunit --configuration phpunit.xml"
-        ],
-        "auto-scripts": {
-            "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
-        }
-    },
-    "extra": {
-        "bin-dir": "apps/Challenge/bin",
-        "config-dir": "apps/Challenge/config",
-        "public-dir": "apps/Challenge/public",
-        "src-dir": "apps/Challenge/src"
-    }
+    "prefer-stable": true
 }

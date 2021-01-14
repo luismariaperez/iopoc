@@ -1,25 +1,4 @@
-# Makefile for car-pooling-challenge
-# vim: set ft=make ts=8 noet
-# Copyright Cabify.com
-# Licence MIT
-
-# Variables
-# UNAME		:= $(shell uname -s)
-
-.EXPORT_ALL_VARIABLES:
-
-# this is godly
-# https://news.ycombinator.com/item?id=11939200
-.PHONY: help
-help:	### this screen. Keep it first target to be default
-ifeq ($(UNAME), Linux)
-	@grep -P '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | \
-		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
-else
-	@# this is not tested, but prepared in advance for you, Mac drivers
-	@awk -F ':.*###' '$$0 ~ FS {printf "%15s%s\n", $$1 ":", $$2}' \
-		$(MAKEFILE_LIST) | grep -v '@awk' | sort
-endif
+current-dir := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 # Targets
 #
@@ -28,5 +7,29 @@ debug:	### Debug Makefile itself
 	@echo $(UNAME)
 
 .PHONY: dockerize
-dockerize: build
-	@docker build -t car-pooling-challenge:latest .
+dockerize: composer-install
+	@docker build -t challenge-luismaria:latest .
+
+# 🐘 Composer
+composer-env-file:
+	@if [ ! -f .env.local ]; then echo '' > .env.local; fi
+
+.PHONY: composer-install
+composer-install: CMD=install
+
+.PHONY: composer
+composer composer-install composer-update composer-require composer-require-module: composer-env-file
+	@docker run --rm $(INTERACTIVE) --volume $(current-dir):/app --user $(id -u):$(id -g) \
+		composer:1 $(CMD) \
+			--ignore-platform-reqs \
+			--no-ansi
+
+# Test
+.PHONY: test behat
+
+test: CMD=vendor/bin/phpunit -c phpunit.xml.dist
+
+behat: CMD=vendor/bin/behat -p challenge -v
+
+test behat:
+	@docker run --rm -it -v $(current-dir)\:/app -w /app php:7.4.14-alpine $(CMD)
