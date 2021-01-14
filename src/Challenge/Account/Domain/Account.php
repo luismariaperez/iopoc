@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Challenge\Account\Domain;
 
+use mysql_xdevapi\Exception;
 use Shared\Domain\Aggregate\AggregateRoot;
 use Challenge\Shared\Domain\User\Id as UserId;
 
@@ -62,6 +63,8 @@ class Account extends AggregateRoot
 
     public function buy(Fiat $fiat): void
     {
+        $this->checkLocked();
+
         $this->locked = Locked::buy();
 
         $this->record(
@@ -80,10 +83,29 @@ class Account extends AggregateRoot
 
     public function sell(Eth $eth): void
     {
-        if(!$this->balance->canSell($eth))
-        {
-            throw new NotEnoughBalance($this->id->value());
-        }
+        $this->checkLocked();
+        $this->checkEnoughBalance($eth);
+
+        $this->locked = Locked::withdraw();
+
+        $this->record(
+            AccountSellCreatedEvent::fromPrimitives(
+                $this->id->value(),
+                [
+                    'userId' => $this->userId->value(),
+                    'address' => $this->address->value(),
+                    'balance' => $this->balance->value(),
+                    'locked' => $this->locked->value(),
+                    'eth' => $eth->value(),
+                ]
+            )
+        );
+    }
+
+    public function transfer(Receiver $address, Eth $eth): void
+    {
+        $this->checkLocked();
+        $this->checkEnoughBalance($eth);
 
         $this->locked = Locked::withdraw();
 
@@ -142,5 +164,26 @@ class Account extends AggregateRoot
     public function locked(): Locked
     {
         return $this->locked;
+    }
+
+    public function isLocked(): bool
+    {
+        return Locked::UNLOCKED !== $this->locked;
+    }
+
+    private function checkLocked(): void
+    {
+        if(!$this->isLocked())
+        {
+            throw new AccountLocked($this->id->value(), $this->locked->value());
+        }
+    }
+
+    private function checkEnoughBalance(Eth $eth): void
+    {
+        if(!$this->balance->enough($eth))
+        {
+            throw new NotEnoughBalance($this->id->value());
+        }
     }
 }

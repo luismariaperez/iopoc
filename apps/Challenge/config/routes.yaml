@@ -16,3 +16,9 @@ account_buy_post:
 account_sell_post:
     path: /account/sell
     controller: Challenge\App\Controller\Sell\SellPostController
+    methods:  [POST]
+
+account_transfer_post:
+    path: /account/transfer
+    controller: Challenge\App\Controller\Transfer\TransferPostController
+
