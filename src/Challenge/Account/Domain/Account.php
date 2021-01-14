@@ -41,7 +41,7 @@ class Account extends AggregateRoot
         return $token;
     }
 
-    public function complete(Address $address, Balance $balance)
+    public function complete(Address $address, Balance $balance): void
     {
         $this->address = $address;
         $this->balance = $balance;
@@ -60,7 +60,48 @@ class Account extends AggregateRoot
         );
     }
 
-    public function updateBalance(Balance $balance)
+    public function buy(Fiat $fiat): void
+    {
+        $this->locked = Locked::buy();
+
+        $this->record(
+            AccountBuyCreatedEvent::fromPrimitives(
+                $this->id->value(),
+                [
+                    'userId' => $this->userId->value(),
+                    'address' => $this->address->value(),
+                    'balance' => $this->balance->value(),
+                    'locked' => $this->locked->value(),
+                    'fiat' => $fiat->value(),
+                ]
+            )
+        );
+    }
+
+    public function sell(Eth $eth): void
+    {
+        if(!$this->balance->canSell($eth))
+        {
+            throw new NotEnoughBalance($this->id->value());
+        }
+
+        $this->locked = Locked::withdraw();
+
+        $this->record(
+            AccountSellCreatedEvent::fromPrimitives(
+                $this->id->value(),
+                [
+                    'userId' => $this->userId->value(),
+                    'address' => $this->address->value(),
+                    'balance' => $this->balance->value(),
+                    'locked' => $this->locked->value(),
+                    'eth' => $eth->value(),
+                ]
+            )
+        );
+    }
+
+    public function updateBalance(Balance $balance): void
     {
         $this->balance = $balance;
         $this->locked = Locked::unlocked();

@@ -12,4 +12,9 @@ class Balance extends FloatValueObject
     {
         return new self($balance);
     }
+
+    public function canSell(Eth $eth): bool
+    {
+        return $this->value() >= $eth->value();
+    }
 }

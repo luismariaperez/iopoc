@@ -9,7 +9,7 @@ use InvalidArgumentException;
 
 /**
  * @method static Locked creation()
- * @method static Locked add()
+ * @method static Locked buy()
  * @method static Locked withdraw()
  * @method static Locked transfer()
  * @method static Locked unlocked()

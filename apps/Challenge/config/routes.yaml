@@ -7,3 +7,12 @@ user_onboard_post:
     path: /user/onboard
     controller: Challenge\App\Controller\Onboarding\OnBoardingPostController
     methods:  [POST]
+
+account_buy_post:
+    path: /account/buy
+    controller: Challenge\App\Controller\Buy\BuyPostController
+    methods:  [POST]
+
+account_sell_post:
+    path: /account/sell
+    controller: Challenge\App\Controller\Sell\SellPostController
