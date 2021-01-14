@@ -107,7 +107,7 @@ class Account extends AggregateRoot
         $this->checkLocked();
         $this->checkEnoughBalance($eth);
 
-        $this->locked = Locked::withdraw();
+        $this->locked = Locked::transfer();
 
         $this->record(
             AccountSellCreatedEvent::fromPrimitives(

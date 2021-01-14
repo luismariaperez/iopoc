@@ -16,7 +16,7 @@ composer-env-file:
 
 .PHONY: start
 start: dockerize
-	@docker run --rm -p 9091:9091 challenge-luismaria
+	@docker run --rm -d -p 9091:9091 challenge-luismaria
 
 .PHONY: composer-install
 composer-install: CMD=install
