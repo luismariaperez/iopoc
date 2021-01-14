@@ -22,3 +22,7 @@ account_transfer_post:
     path: /account/transfer
     controller: Challenge\App\Controller\Transfer\TransferPostController
 
+account_balance_get:
+    path: /account/balance/{id}
+    controller: Challenge\App\Controller\Balance\BalanceGetController
+
