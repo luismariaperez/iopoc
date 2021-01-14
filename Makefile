@@ -14,11 +14,15 @@ dockerize: composer-install
 composer-env-file:
 	@if [ ! -f .env.local ]; then echo '' > .env.local; fi
 
+.PHONY: start
+start: dockerize
+	@docker run --rm -p 9091:9091 challenge-luismaria
+
 .PHONY: composer-install
 composer-install: CMD=install
 
 .PHONY: composer
-composer composer-install composer-update composer-require composer-require-module: composer-env-file
+composer composer-install: composer-env-file
 	@docker run --rm $(INTERACTIVE) --volume $(current-dir):/app --user $(id -u):$(id -g) \
 		composer:1 $(CMD) \
 			--ignore-platform-reqs \

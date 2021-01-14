@@ -1,0 +1,147 @@
+{
+	"info": {
+		"_postman_id": "324ecc84-5a2b-4b22-afa5-ded4af67fd3d",
+		"name": "Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User Onboard",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"id\": \"0b7221c8-a62c-40c1-a7d3-a8fdbca2e1a8\",\n\"email\": \"test@behat.com\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9091/user/onboard",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9091",
+					"path": [
+						"user",
+						"onboard"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Account Buy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"id\": \"{{account_uuid}}\",\n\"fiat\": 100.00\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9091/account/buy",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9091",
+					"path": [
+						"account",
+						"buy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Account Sell",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"id\": \"{{account_uuid}}\",\n\"eth\": 100.00\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9091/account/sell",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9091",
+					"path": [
+						"account",
+						"sell"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Account Balance",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9091/account/balance/{{account_uuid}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9091",
+					"path": [
+						"account",
+						"balance",
+						"{{account_uuid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Account Transfer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"{{account_uuid}}\",\n    \"address\": \"0x9293991136d94f82d9C9Da263C7c9Bb969F8224f\",\n    \"eth\": 10.00\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9091/account/transfer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9091",
+					"path": [
+						"account",
+						"transfer"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
