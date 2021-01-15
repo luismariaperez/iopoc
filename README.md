@@ -4,6 +4,10 @@ This is a sample project about Ports and Adapters, CQRS and DDD.
 
 To keep it as simple as possible there is no external DB or Message Broker so all the commands and events are synchronous.
 
+### Requisites
+
+You'll only need [docker](https://www.docker.com/get-started) to run this project.
+
 ## Project structure
 
 The project is composed by one application, the one attached to the framework, and two contexts.
@@ -32,3 +36,5 @@ make composer-install   # install dependencies
 make dockerize          # create an image of the project, install dependecies
 make start              # create the image and run the project
 ```
+
+There is a postman collection in the project to try all the endpoints.
