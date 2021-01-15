@@ -10,8 +10,11 @@ debug:	### Debug Makefile itself
 dockerize: composer-install
 	@docker build -t challenge-luismaria:latest .
 
+symfony-env-file:
+	@if [ ! -f .env ]; then echo 'APP_ENV=test' > .env; fi
+
 # 🐘 Composer
-composer-env-file:
+composer-env-file: symfony-env-file
 	@if [ ! -f .env.local ]; then echo '' > .env.local; fi
 
 .PHONY: start
